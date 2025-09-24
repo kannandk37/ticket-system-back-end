@@ -29,6 +29,15 @@ router.get('/', async (req: Request, res: Response) => {
         if (req.query.priority) {
             filter['priority'] = req.query.priority
         }
+        if (req.query.from) {
+            filter['from'] = req.query.from
+        }
+        if (req.query.to) {
+            filter['to'] = req.query.to
+        }
+        if (req.query.cursor) {
+            filter['cursor'] = req.query.cursor
+        }
         let page = Number(req.query.page) || 1;
         let limit = Number(req.query.limit) || 10;
 

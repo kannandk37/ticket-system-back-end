@@ -25,11 +25,27 @@ export class TicketDataManager {
                     if (filters.priority) {
                         filtersData.priority = filters.priority;
                     }
+                    if (filters.from || filters.to) {
+                        filtersData.created_at = {};
+                        if (filters.from) {
+                            filtersData.created_at.$gte = new Date(filters.from);
+                        }
+                        if (filters.to) {
+                            filtersData.created_at.$lte = new Date(filters.to);
+                        }
+                    }
+                    if (filters.cursor) {
+                        filtersData._id = {
+                            $lt: new ObjectId(filters.cursor as string)
+                        }
+                    }
                 }
-
                 const query = { ...searchQuery, ...filtersData };
-                console.log(limit, page, page * limit)
-                let tickets = await TicketSchema.find(query).sort({ created_at: -1 }).skip(page * limit).limit(limit);
+                let tickets = await TicketSchema
+                    .find(query)
+                    .sort({ created_at: -1, _id: -1 })
+                    // .skip(page * limit) // offset based
+                    .limit(limit);
                 if (tickets?.length > 0) {
                     resolve(ticketRecordsToTicketEntities(tickets));
                 } else {
@@ -102,6 +118,15 @@ export class TicketDataManager {
                     }
                     if (filters.priority) {
                         filtersData.priority = filters.priority;
+                    }
+                    if (filters.from || filters.to) {
+                        filtersData.created_at = {};
+                        if (filters.from) {
+                            filtersData.created_at.$gte = new Date(filters.from);
+                        }
+                        if (filters.to) {
+                            filtersData.created_at.$lte = new Date(filters.to);
+                        }
                     }
                 }
 
