@@ -5,6 +5,7 @@ import createHttpError from 'http-errors';
 import { connectToDatabase } from './connection';
 import ticketsRouter from './modules/ticket/routes';
 import { importTickets } from './seed/seed-tickets';
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 dotenv.config();
 
@@ -46,11 +47,14 @@ connectToDatabase()
         // app.listen(port, () => {
         //     console.log(`Server running on http://localhost:${port}`);
         // });
-        await importTickets();
+        // await importTickets();
     })
     .catch((error) => {
         console.error('Failed to connect to database', error);
         process.exit(1);
     });
 
-export default app;
+// this is for vercel
+export default (req: VercelRequest, res: VercelResponse) => {
+    return app(req as any, res as any);
+};
