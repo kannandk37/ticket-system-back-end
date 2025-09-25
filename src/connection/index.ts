@@ -7,6 +7,7 @@ const uri = process.env.DB_URI ? process.env.DB_URI : `mongodb://${process.env.D
 
 export function connectToDatabase() {
     try {
+        console.log(uri)
         return mongoose.connect(uri);
     } catch (error) {
         console.log(error.message)
