@@ -12,10 +12,10 @@ export async function importTickets() {
     return new Promise<Ticket[]>(async (resolve, reject) => {
         try {
             await connectToDatabase();
-            // let existingTickets = await new TicketBusinessManager().tickets(null, null, null, null);
-            // if (existingTickets?.length != 0) {
-            //     return resolve(existingTickets)
-            // } else {
+            let existingTickets = await new TicketBusinessManager().tickets(null, null, null, null);
+            if (existingTickets?.length != 0) {
+                return resolve(existingTickets)
+            } else {
 
                 const count = Number(process.env.TICKETS_TO_SEED_COUNT);
                 console.log(`Seeding tickets, in process for`, count);
@@ -27,16 +27,16 @@ export async function importTickets() {
                     priority: faker.helpers.arrayElement([TicketPriority.LOW, TicketPriority.MEDIUM, TicketPriority.HIGH] as const),
                 }));
 
-            //     let tickets = await TicketSchema.insertMany(ticketEntitiesToTicketRecords(ticketSeedData));
+                let tickets = await TicketSchema.insertMany(ticketEntitiesToTicketRecords(ticketSeedData));
                 console.log(`Seeded ${ticketSeedData.length} tickets`);
-            //     if (tickets?.length == count) {
-            //         let ticketsData = ticketRecordsToTicketEntities(tickets);
+                if (tickets?.length == count) {
+                    let ticketsData = ticketRecordsToTicketEntities(tickets);
                     console.log(`Seeding tickets, ended`);
                     return resolve(ticketSeedData)
-            //     } else {
-            //         return reject("Unable to Seed Ticket for the given count");
-            //     }
-            // }
+                } else {
+                    return reject("Unable to Seed Ticket for the given count");
+                }
+            }
         } catch (error) {
             reject(error);
         }
