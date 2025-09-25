@@ -17,7 +17,7 @@ export async function importTickets() {
             //     return resolve(existingTickets)
             // } else {
 
-                const count = Number(process.env.TICKET_SEED_COUNT);
+                const count = Number(process.env.TICKETS_TO_SEED_COUNT);
                 console.log(`Seeding tickets, in process for`, count);
 
                 const ticketSeedData: Ticket[] = Array.from({ length: count }).map(() => ({
