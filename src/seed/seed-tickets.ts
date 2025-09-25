@@ -16,9 +16,9 @@ export async function importTickets() {
             // if (existingTickets?.length != 0) {
             //     return resolve(existingTickets)
             // } else {
-                console.log(`Seeding tickets, in process`);
 
                 const count = Number(process.env.TICKET_SEED_COUNT);
+                console.log(`Seeding tickets, in process for`, count);
 
                 const ticketSeedData: Ticket[] = Array.from({ length: count }).map(() => ({
                     title: faker.lorem.sentence(),
