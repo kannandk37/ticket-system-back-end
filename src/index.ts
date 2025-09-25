@@ -47,7 +47,7 @@ connectToDatabase()
         // app.listen(port, () => {
         //     console.log(`Server running on http://localhost:${port}`);
         // });
-        // await importTickets();
+        await importTickets();
     })
     .catch((error) => {
         console.error('Failed to connect to database', error);
