@@ -42,12 +42,15 @@ const port = process.env.PORT || 3000;
 connectToDatabase()
     .then(async () => {
         console.log('connected to database');
-        app.listen(port, () => {
-            console.log(`Server running on http://localhost:${port}`);
-        });
+        // below is for local
+        // app.listen(port, () => {
+        //     console.log(`Server running on http://localhost:${port}`);
+        // });
         await importTickets();
     })
     .catch((error) => {
         console.error('Failed to connect to database', error);
         process.exit(1);
     });
+
+export default app;
